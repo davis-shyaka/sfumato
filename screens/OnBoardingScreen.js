@@ -1,0 +1,74 @@
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import painting from "../assets/images/painting1.jpeg";
+import Entypo from "react-native-vector-icons/Entypo";
+import colors from "../assets/colors/colors";
+
+const OnBoardingScreen = ({ navigation }) => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.intoWrapper}>
+        <Text style={styles.text}>Welcome to</Text>
+        <Text style={styles.title}>SFUMATA</Text>
+      </View>
+      <Image source={painting} style={styles.logo} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Login")}
+        style={styles.proceedWrapper}
+      >
+        <Text style={styles.proceedText}>Proceed</Text>
+        <Entypo name="chevron-right" size={32} color={colors.cyan} />
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.dark2,
+    marginTop: 20,
+  },
+  intoWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    color: colors.white,
+    fontFamily: "Ubuntu-Bold",
+    fontSize: 16,
+  },
+  title: {
+    color: colors.cyan,
+    fontFamily: "Ubuntu-Bold",
+    fontSize: 32,
+    marginTop: 20,
+  },
+  proceedWrapper: {
+    backgroundColor: colors.darkGray,
+    padding: 10,
+    paddingHorizontal: 20,
+    width: "60%",
+    borderRadius: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 40,
+  },
+  proceedText: {
+    color: colors.white,
+    fontSize: 16,
+    fontFamily: "Ubuntu-Italic",
+  },
+
+  logo: {
+    width: 227.27,
+    height: 150,
+    borderRadius: 20,
+    marginVertical: 20,
+  },
+});
+
+export default OnBoardingScreen;

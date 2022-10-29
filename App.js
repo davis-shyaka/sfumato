@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import colors from "./assets/colors/colors";
+import { useFonts } from "expo-font";
+import * as SystemUI from "expo-system-ui";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthStack from "./navigation/AuthStack";
+import AppStack from "./navigation/AppStack";
 
-export default function App() {
+SystemUI.setBackgroundColorAsync(colors.dark2);
+
+const App = () => {
+  const [fontsLoaded] = useFonts({
+    "Ubuntu-Regular": require("./assets/fonts/Ubuntu-Regular.ttf"),
+    "Ubuntu-Bold": require("./assets/fonts/Ubuntu-Bold.ttf"),
+    "Ubuntu-Medium": require("./assets/fonts/Ubuntu-Medium.ttf"),
+    "Ubuntu-Italic": require("./assets/fonts/Ubuntu-Italic.ttf"),
+    "Ubuntu-Light": require("./assets/fonts/Ubuntu-Light.ttf"),
+  });
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <AppStack />
+      {/* <AuthStack /> */}
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
