@@ -9,7 +9,7 @@ const OnBoardingScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.intoWrapper}>
         <Text style={styles.text}>Welcome to</Text>
-        <Text style={styles.title}>SFUMATA</Text>
+        <Text style={styles.title}>SFUMATO</Text>
       </View>
       <Image source={painting} style={styles.logo} />
       <TouchableOpacity

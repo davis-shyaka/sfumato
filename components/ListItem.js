@@ -12,10 +12,10 @@ const ListItem = ({ photo, title, subTitle, isFree, price, artist }) => {
       </View>
 
       <View style={{ width: windowWidth - 220 }}>
-        <Text style={styles.listItemCategory}>{subTitle}</Text>
         <Text numberOfLines={1} style={styles.listItemArtist}>
           {title}
         </Text>
+        <Text style={styles.listItemCategory}>{subTitle}</Text>
       </View>
 
       <View>
@@ -55,13 +55,14 @@ const styles = StyleSheet.create({
   },
   listItemCategory: {
     color: colors.green,
-    fontFamily: "Ubuntu-Medium",
+    fontFamily: "Cera-Medium",
     fontSize: 12,
   },
   listItemArtist: {
     color: colors.yellow,
-    fontFamily: "Ubuntu-Medium",
+    fontFamily: "Cera-Medium",
     fontSize: 18,
+    paddingVertical: 5,
   },
   listItemButton: {
     flexDirection: "row",

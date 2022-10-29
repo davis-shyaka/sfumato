@@ -2,17 +2,15 @@ import {
   View,
   Text,
   ScrollView,
-  ImageBackground,
   StyleSheet,
   Image,
   TextInput,
   TouchableOpacity,
-  FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import colors from "../assets/colors/colors";
-import profile from "../assets/images/person.png";
+import profile from "../assets/images/gallery/friday.jpg";
 import Feather from "react-native-vector-icons/Feather";
 import Carousel from "react-native-snap-carousel-v4";
 import { freeArt, paidArt, sliderData } from "../model/data";
@@ -37,8 +35,8 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView>
         {/* Header */}
         <View style={styles.headerWrapper}>
-          <Text style={styles.headerText}>Welcome back, Dieudonne</Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.headerText}>Welcome back, Beni</Text>
+          <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <Image source={profile} style={styles.profileImage} />
           </TouchableOpacity>
         </View>
@@ -132,7 +130,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerText: {
-    fontFamily: "Ubuntu-Medium",
+    fontFamily: "Cera-Medium",
     fontSize: 16,
     color: colors.white,
   },
@@ -168,13 +166,13 @@ const styles = StyleSheet.create({
   },
   comingSoonText: {
     color: colors.yellow,
-    fontFamily: "Ubuntu-Bold",
+    fontFamily: "Cera-Regular",
     fontSize: 16,
   },
   comingSoonItem: {},
   seeAllLink: {
     color: colors.cyan,
-    fontFamily: "Ubuntu-Medium",
+    fontFamily: "Cera-Medium",
     fontSize: 16,
   },
 });

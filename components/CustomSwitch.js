@@ -50,7 +50,7 @@ export default function CustomSwitch({
             style={{
               color: getSelectionMode == 1 ? colors.dark : colors.cyan,
               fontSize: 14,
-              fontFamily: "Ubuntu-Medium",
+              fontFamily: "Cera-Medium",
             }}
           >
             {option1}
@@ -72,7 +72,7 @@ export default function CustomSwitch({
             style={{
               color: getSelectionMode == 2 ? colors.dark : colors.cyan,
               fontSize: 14,
-              fontFamily: "Ubuntu-Medium",
+              fontFamily: "Cera-Medium",
             }}
           >
             {option2}
