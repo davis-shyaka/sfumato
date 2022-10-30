@@ -4,11 +4,21 @@ import colors from "../assets/colors/colors";
 import Feather from "react-native-vector-icons/Feather";
 import { windowWidth } from "../utils/Dimensions";
 
-const ListItem = ({ photo, title, subTitle, isFree, price, artist }) => {
+const ListItem = ({
+  photo,
+  title,
+  subTitle,
+  isFree,
+  price,
+  artist,
+  onPress,
+}) => {
   return (
     <View style={styles.listItemWrapper}>
       <View style={styles.listItemImageWrapper}>
-        <Image style={styles.listItemImage} source={photo} />
+        <TouchableOpacity onPress={onPress}>
+          <Image style={styles.listItemImage} source={photo} />
+        </TouchableOpacity>
       </View>
 
       <View style={{ width: windowWidth - 220 }}>
@@ -19,7 +29,7 @@ const ListItem = ({ photo, title, subTitle, isFree, price, artist }) => {
       </View>
 
       <View>
-        <TouchableOpacity style={styles.listItemButton}>
+        <TouchableOpacity onPress={onPress} style={styles.listItemButton}>
           {isFree == "Yes" && (
             <Feather name="download" size={20} color={colors.cyan} />
           )}

@@ -2,14 +2,13 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CustomDrawer from "../components/CustomDrawer";
-import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import WishListScreen from "../screens/WishListScreen";
 import SettingsScreen from "../screens/ProfileScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { StyleSheet } from "react-native";
 import colors from "../assets/colors/colors";
+import TabNavigator from "./TabNavigator";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,7 +36,7 @@ const AppStack = () => {
       }}
     >
       <Drawer.Screen
-        component={HomeScreen}
+        component={TabNavigator}
         name="Home"
         options={{
           drawerIcon: ({ color }) => (

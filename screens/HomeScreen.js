@@ -36,7 +36,10 @@ const HomeScreen = ({ navigation }) => {
         {/* Header */}
         <View style={styles.headerWrapper}>
           <Text style={styles.headerText}>Welcome back, Beni</Text>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <TouchableOpacity
+            style={styles.profileImageWrapper}
+            onPress={() => navigation.openDrawer()}
+          >
             <Image source={profile} style={styles.profileImage} />
           </TouchableOpacity>
         </View>
@@ -66,13 +69,13 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.carousel}>
             <Carousel
               layout={"stack"}
-              layoutCardOffset={`18`}
+              layoutCardOffset={`20`}
               ref={(c) => {
                 // this._carousel = c;
               }}
               data={sliderData}
               renderItem={renderBanner}
-              sliderWidth={windowWidth - 40}
+              sliderWidth={windowWidth}
               itemWidth={300}
               loop={true}
             />
@@ -93,10 +96,20 @@ const HomeScreen = ({ navigation }) => {
           freeArt.map((item) => (
             <ListItem
               key={item.id}
+              artist={item.artist}
               photo={item.poster}
               title={item.title}
               subTitle={item.subtitle}
               isFree={item.isFree}
+              onPress={() =>
+                navigation.navigate("ArtDetails", {
+                  title: item.title,
+                  artist: item.artist,
+                  id: item.id,
+                  photo: item.poster,
+                  subTitle: item.subtitle,
+                })
+              }
             />
           ))}
         {artTab == 2 &&
@@ -108,6 +121,16 @@ const HomeScreen = ({ navigation }) => {
               subTitle={item.subtitle}
               isFree={item.isFree}
               price={item.price}
+              onPress={() =>
+                navigation.navigate("ArtDetails", {
+                  title: item.title,
+                  artist: item.artist,
+                  price: item.price,
+                  id: item.id,
+                  photo: item.poster,
+                  subTitle: item.subtitle,
+                })
+              }
             />
           ))}
       </ScrollView>
@@ -135,9 +158,27 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
 
+  profileImageWrapper: {
+    width: 42,
+    height: 42,
+    borderRadius: 10,
+    borderColor: colors.cyan,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: colors.cyan,
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
+  },
   profileImage: {
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
     borderRadius: 10,
   },
   searchWrapper: {
