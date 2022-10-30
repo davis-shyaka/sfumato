@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.white,
-    fontFamily: "Ubuntu-Bold",
+    fontFamily: "Cera-Bold",
     fontSize: 16,
   },
   title: {
     color: colors.cyan,
-    fontFamily: "Ubuntu-Bold",
+    fontFamily: "Cera-Bold",
     fontSize: 32,
     marginTop: 20,
   },
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   proceedText: {
     color: colors.white,
     fontSize: 16,
-    fontFamily: "Ubuntu-Italic",
+    fontFamily: "Cera-Light",
   },
 
   logo: {
