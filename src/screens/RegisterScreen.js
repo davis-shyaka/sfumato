@@ -166,7 +166,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
-  otherOptionsText: { color: colors.white, marginBottom: 20 },
+  otherOptionsText: {
+    color: colors.white,
+    marginBottom: 20,
+    fontFamily: "Cera-Medium",
+    fontSize: 16,
+  },
   userInputWrapper: {
     flexDirection: "row",
     padding: 10,

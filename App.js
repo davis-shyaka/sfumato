@@ -1,27 +1,26 @@
 import "react-native-gesture-handler";
 import React from "react";
-import colors from "./assets/colors/colors";
-import { loadAsync, useFonts } from "expo-font";
+import colors from "./src/assets/colors/colors";
 import * as SystemUI from "expo-system-ui";
 import * as Font from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
-import AuthStack from "./navigation/AuthStack";
-import AppStack from "./navigation/AppStack";
+
+import AuthProvider from "./src/context/AuthContext";
+import AppNav from "./src/navigation/AppNav";
 
 SystemUI.setBackgroundColorAsync(colors.dark2);
 
 const customFonts = {
-  "Ubuntu-Regular": require("./assets/fonts/Ubuntu-Regular.ttf"),
-  "Ubuntu-Bold": require("./assets/fonts/Ubuntu-Bold.ttf"),
-  "Ubuntu-Medium": require("./assets/fonts/Ubuntu-Medium.ttf"),
-  "Ubuntu-Italic": require("./assets/fonts/Ubuntu-Italic.ttf"),
-  "Ubuntu-Light": require("./assets/fonts/Ubuntu-Light.ttf"),
-  "Cera-Black": require("./assets/fonts/ceraroundpro-black.otf"),
-  "Cera-Bold": require("./assets/fonts/ceraroundpro-bold.otf"),
-  "Cera-Light": require("./assets/fonts/ceraroundpro-light.otf"),
-  "Cera-Medium": require("./assets/fonts/ceraroundpro-medium.otf"),
-  "Cera-Regular": require("./assets/fonts/ceraroundpro-regular.otf"),
-  "Cera-Thin": require("./assets/fonts/ceraroundpro-thin.otf"),
+  "Ubuntu-Regular": require("./src/assets/fonts/Ubuntu-Regular.ttf"),
+  "Ubuntu-Bold": require("./src/assets/fonts/Ubuntu-Bold.ttf"),
+  "Ubuntu-Medium": require("./src/assets/fonts/Ubuntu-Medium.ttf"),
+  "Ubuntu-Italic": require("./src/assets/fonts/Ubuntu-Italic.ttf"),
+  "Ubuntu-Light": require("./src/assets/fonts/Ubuntu-Light.ttf"),
+  "Cera-Black": require("./src/assets/fonts/ceraroundpro-black.otf"),
+  "Cera-Bold": require("./src/assets/fonts/ceraroundpro-bold.otf"),
+  "Cera-Light": require("./src/assets/fonts/ceraroundpro-light.otf"),
+  "Cera-Medium": require("./src/assets/fonts/ceraroundpro-medium.otf"),
+  "Cera-Regular": require("./src/assets/fonts/ceraroundpro-regular.otf"),
+  "Cera-Thin": require("./src/assets/fonts/ceraroundpro-thin.otf"),
 };
 
 export default class App extends React.Component {
@@ -43,10 +42,9 @@ export default class App extends React.Component {
       return null;
     }
     return (
-      <NavigationContainer>
-        <AppStack />
-        {/* <AuthStack /> */}
-      </NavigationContainer>
+      <AuthProvider>
+        <AppNav />
+      </AuthProvider>
     );
   }
 }

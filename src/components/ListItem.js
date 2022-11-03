@@ -1,4 +1,11 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Touchable,
+} from "react-native";
 import React from "react";
 import colors from "../assets/colors/colors";
 import Feather from "react-native-vector-icons/Feather";
@@ -14,32 +21,32 @@ const ListItem = ({
   onPress,
 }) => {
   return (
-    <View style={styles.listItemWrapper}>
-      <View style={styles.listItemImageWrapper}>
-        <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.listItemWrapper}>
+        <View style={styles.listItemImageWrapper}>
           <Image style={styles.listItemImage} source={photo} />
-        </TouchableOpacity>
-      </View>
+        </View>
 
-      <View style={{ width: windowWidth - 220 }}>
-        <Text numberOfLines={1} style={styles.listItemArtist}>
-          {title}
-        </Text>
-        <Text style={styles.listItemCategory}>{subTitle}</Text>
-      </View>
-
-      <View>
-        <TouchableOpacity onPress={onPress} style={styles.listItemButton}>
-          {isFree == "Yes" && (
-            <Feather name="download" size={20} color={colors.cyan} />
-          )}
-          <Text style={{ color: colors.cyan }}>
-            {/* {isFree == "Yes" && "Download"} */}
-            {isFree == "No" && price}
+        <View style={{ width: windowWidth - 220 }}>
+          <Text numberOfLines={1} style={styles.listItemArtist}>
+            {title}
           </Text>
-        </TouchableOpacity>
+          <Text style={styles.listItemCategory}>{subTitle}</Text>
+        </View>
+
+        <View>
+          <View style={styles.listItemButton}>
+            {isFree == "Yes" && (
+              <Feather name="download" size={20} color={colors.cyan} />
+            )}
+            <Text style={{ color: colors.cyan }}>
+              {/* {isFree == "Yes" && "Download"} */}
+              {isFree == "No" && price}
+            </Text>
+          </View>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

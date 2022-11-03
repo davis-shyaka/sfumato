@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -5,15 +6,16 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../assets/colors/colors";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import LoginSVG from "../assets/images/misc/login.svg";
 import GoogleSVG from "../assets/images/misc/google.svg";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
+  const { test } = useContext(AuthContext);
   return (
     <SafeAreaView style={styles.loginWrapper}>
       {/* SVG */}
@@ -22,6 +24,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
       {/* Login Section */}
       {/* Title */}
+
       <Text style={styles.loginTitle}>Login</Text>
       {/* Login Body */}
       <View style={styles.loginBody}>

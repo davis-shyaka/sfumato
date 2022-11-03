@@ -53,7 +53,11 @@ const HomeScreen = ({ navigation }) => {
               color={colors.cyan}
               style={styles.searchIcon}
             />
-            <TextInput style={styles.searchInput} placeholder="Search..." />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search..."
+              placeholderTextColor={colors.green}
+            />
           </View>
         </View>
 

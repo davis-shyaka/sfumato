@@ -17,7 +17,7 @@ const OnBoardingScreen = ({ navigation }) => {
         style={styles.proceedWrapper}
       >
         <Text style={styles.proceedText}>Proceed</Text>
-        <Entypo name="chevron-right" size={32} color={colors.cyan} />
+        <Entypo name="chevron-right" size={32} color={colors.green} />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   proceedWrapper: {
-    backgroundColor: colors.darkGray,
+    backgroundColor: colors.white,
+    opacity: 1,
     padding: 10,
     paddingHorizontal: 20,
     width: "60%",
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   proceedText: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 16,
     fontFamily: "Cera-Light",
   },

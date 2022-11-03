@@ -44,9 +44,12 @@ const ArtDetailsScreen = ({ navigation, route }) => {
       </ImageBackground>
 
       <View style={styles.descriptionWrapper}>
-        <View style={styles.heartWrapper}>
-          <Entypo name="heart" size={32} color={colors.magneta} />
-        </View>
+        <TouchableOpacity>
+          <View style={styles.heartWrapper}>
+            <Entypo name="heart" size={32} color={colors.magneta} />
+          </View>
+        </TouchableOpacity>
+
         <View style={styles.descriptionTextWrapper}>
           <Text style={styles.descriptionTitle}>Description</Text>
           <ScrollView>

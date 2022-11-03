@@ -9,7 +9,8 @@ const colors = {
   darkgray: "rgb(15, 23, 42)",
   magneta: "#CA1F7B",
   yellow: "#F9F871",
-  green: "#82D079",
+  // green: "#82D079",
+  green: "#5ced73",
 };
 
 export default colors;
