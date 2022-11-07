@@ -5,7 +5,7 @@ import CustomDrawer from "../components/CustomDrawer";
 import ProfileScreen from "../screens/ProfileScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import WishListScreen from "../screens/WishListScreen";
-import SettingsScreen from "../screens/ProfileScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../assets/colors/colors";
 import TabNavigator from "./TabNavigator";
