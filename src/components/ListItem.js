@@ -21,20 +21,21 @@ const ListItem = ({
   onPress,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.listItemWrapper}>
+    <View style={styles.listItemWrapper}>
+      <TouchableOpacity onPress={onPress}>
         <View style={styles.listItemImageWrapper}>
           <Image style={styles.listItemImage} source={photo} />
         </View>
+      </TouchableOpacity>
+      <View style={{ width: windowWidth - 220 }}>
+        <Text numberOfLines={1} style={styles.listItemArtist}>
+          {title}
+        </Text>
+        <Text style={styles.listItemCategory}>{subTitle}</Text>
+      </View>
 
-        <View style={{ width: windowWidth - 220 }}>
-          <Text numberOfLines={1} style={styles.listItemArtist}>
-            {title}
-          </Text>
-          <Text style={styles.listItemCategory}>{subTitle}</Text>
-        </View>
-
-        <View>
+      <View>
+        <TouchableOpacity onPress={() => {}}>
           <View style={styles.listItemButton}>
             {isFree == "Yes" && (
               <Feather name="download" size={20} color={colors.cyan} />
@@ -44,9 +45,9 @@ const ListItem = ({
               {isFree == "No" && price}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

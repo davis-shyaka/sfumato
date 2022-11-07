@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -9,8 +9,10 @@ import background from "../assets/images/gallery/the-disguise.jpg";
 import profile from "../assets/images/gallery/friday.jpg";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { AuthContext } from "../context/AuthContext";
 
 const CustomDrawer = (props) => {
+  const { logout, userInfo } = useContext(AuthContext);
   return (
     <View style={styles.drawerWrapper}>
       <DrawerContentScrollView
@@ -22,7 +24,11 @@ const CustomDrawer = (props) => {
           {/* User Profile Image */}
           <Image style={styles.profileImage} source={profile} />
           {/* User Name */}
-          <Text style={styles.profileText}>KATUREBE Beni Noel</Text>
+          <Text style={styles.profileText}>
+            {" "}
+            KATUREBE Beni Noel
+            {/* {userInfo.data.lastName + userInfo.data.firstName} */}
+          </Text>
         </ImageBackground>
         {/* Screen Names List */}
         <View style={styles.screenList}>
@@ -40,7 +46,12 @@ const CustomDrawer = (props) => {
             <Text style={styles.tellAFriendText}>Tell a friend about us</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.CTA}>
+        <TouchableOpacity
+          onPress={() => {
+            logout();
+          }}
+          style={styles.CTA}
+        >
           <View style={styles.tellAFriend}>
             <Ionicons name="exit-outline" size={24} color={colors.magneta} />
             <Text style={styles.tellAFriendText}>Log Out</Text>
