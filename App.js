@@ -3,6 +3,7 @@ import React from "react";
 import colors from "./src/assets/colors/colors";
 import * as SystemUI from "expo-system-ui";
 import * as Font from "expo-font";
+import * as Application from "expo-application";
 
 import AuthProvider from "./src/context/AuthContext";
 import AppNav from "./src/navigation/AppNav";

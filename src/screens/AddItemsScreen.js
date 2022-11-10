@@ -73,7 +73,7 @@ const AddItemsScreen = ({ navigation, route }) => {
     );
   }
   return (
-    <SafeAreaView style={styles.appWrapper}>
+    <View style={styles.appWrapper}>
       <View style={styles.containerWrapper}>
         <ImageBackground source={image} style={styles.backgroundImage}>
           <TouchableOpacity
@@ -161,7 +161,7 @@ const AddItemsScreen = ({ navigation, route }) => {
           <Text style={styles.buttonText}>Add</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

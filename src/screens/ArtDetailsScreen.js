@@ -65,7 +65,7 @@ const ArtDetailsScreen = ({ navigation, route }) => {
               </Text>
               <Text style={styles.descriptionText}>Size:</Text>
               <Text style={styles.descriptionText}>
-                Price: ${route.params?.price}
+                Price: {route.params?.price}
               </Text>
               <Text style={styles.descriptionText}>Email:</Text>
             </View>
