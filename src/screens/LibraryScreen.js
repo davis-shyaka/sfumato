@@ -69,7 +69,7 @@ function Items({ done: doneHeading, onPressItem }) {
   );
 }
 
-export default function App() {
+export default function LibraryScreen() {
   const [text, setText] = useState(null);
   const [forceUpdate, forceUpdateId] = useForceUpdate();
 

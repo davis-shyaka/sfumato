@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -15,7 +15,10 @@ import GoogleSVG from "../assets/images/misc/google.svg";
 import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
-  const { test } = useContext(AuthContext);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
+  const { login } = useContext(AuthContext);
   return (
     <SafeAreaView style={styles.loginWrapper}>
       {/* SVG */}
@@ -45,6 +48,8 @@ const LoginScreen = ({ navigation }) => {
             placeholder="Email"
             placeholderTextColor={colors.magneta}
             keyboardType="email-address"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
         <View style={styles.userInputWrapper}>
@@ -58,6 +63,8 @@ const LoginScreen = ({ navigation }) => {
             placeholder="Password"
             placeholderTextColor={colors.magneta}
             secureTextEntry={true}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
           <TouchableOpacity onPress={() => {}}>
             <Text style={{ color: colors.cyan, fontWeight: "700" }}>
@@ -65,7 +72,12 @@ const LoginScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => {}} style={styles.loginButton}>
+        <TouchableOpacity
+          onPress={() => {
+            login(email, password);
+          }}
+          style={styles.loginButton}
+        >
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
       </View>

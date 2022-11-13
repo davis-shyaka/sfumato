@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
+import AddItemsScreen from "../screens/AddItemsScreen";
 import CommunityScreen from "../screens/CommunityScreen";
 import LibraryScreen from "../screens/LibraryScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -64,6 +65,15 @@ const TabNavigator = () => {
             <Ionicons name="home-outline" color={color} size={size} />
           ),
         })}
+      />
+      <Tab.Screen
+        name="AddItems"
+        component={AddItemsScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="md-add-circle" color={color} size={size} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Library"

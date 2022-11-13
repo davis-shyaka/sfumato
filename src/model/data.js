@@ -94,7 +94,7 @@ export const paidArt = [
     title: "Mother",
     subtitle: "Painting",
     isFree: "No",
-    price: "1,499.99",
+    price: 1399.99,
     id: "4",
     artist: "DUSABE King Christian",
   },

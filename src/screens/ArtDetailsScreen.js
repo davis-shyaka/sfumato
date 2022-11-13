@@ -65,7 +65,7 @@ const ArtDetailsScreen = ({ navigation, route }) => {
               </Text>
               <Text style={styles.descriptionText}>Size:</Text>
               <Text style={styles.descriptionText}>
-                Price: ${route.params?.price}
+                Price: {route.params?.price}
               </Text>
               <Text style={styles.descriptionText}>Email:</Text>
             </View>
@@ -73,14 +73,39 @@ const ArtDetailsScreen = ({ navigation, route }) => {
         </View>
       </View>
 
-      <TouchableOpacity
-        style={styles.buttonWrapper}
-        onPress={() =>
-          alert("Tuza mwana.\nThis functionality is not yet prepared")
-        }
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          paddingHorizontal: "5%",
+        }}
       >
-        <Text style={styles.buttonText}>Purchase</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonWrapper}
+          onPress={() =>
+            alert("Tuza mwana.\nThis functionality is not yet prepared")
+          }
+        >
+          <Text style={styles.buttonText}>Purchase</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonWrapper, { backgroundColor: colors.cyan }]}
+          onPress={() =>
+            alert("Tuza mwana.\nThis functionality is not yet prepared")
+          }
+        >
+          <Text style={styles.buttonText}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonWrapper, { backgroundColor: colors.magneta }]}
+          onPress={() =>
+            alert("Tuza mwana.\nThis functionality is not yet prepared")
+          }
+        >
+          <Text style={styles.buttonText}>Delete</Text>
+        </TouchableOpacity>
+      </View>
     </View>
     // </ScrollView>
   );
@@ -164,6 +189,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   buttonWrapper: {
+    width: "30%",
     marginHorizontal: 20,
     marginTop: 20,
     marginBottom: 20,
@@ -175,7 +201,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "Cera-Bold",
     fontSize: 18,
-    color: colors.yellow,
+    color: colors.black,
   },
 });
 export default ArtDetailsScreen;

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
+import React, { useContext } from "react";
 import colors from "../assets/colors/colors";
 import profile from "../assets/images/gallery/friday.jpg";
 import Feather from "react-native-vector-icons/Feather";
@@ -19,9 +19,12 @@ import { windowWidth } from "../utils/Dimensions";
 import CustomSwitch from "../components/CustomSwitch";
 import { useState } from "react";
 import ListItem from "../components/ListItem";
+import { AuthContext } from "../context/AuthContext";
 
 const HomeScreen = ({ navigation }) => {
   const [artTab, setArtTab] = useState(1);
+
+  // const { userInfo } = useContext(AuthContext);
 
   const renderBanner = ({ item, index }) => {
     return <BannerSlider data={item} />;
@@ -35,7 +38,10 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView>
         {/* Header */}
         <View style={styles.headerWrapper}>
-          <Text style={styles.headerText}>Welcome back, Beni</Text>
+          <Text style={styles.headerText}>
+            Welcome back, Beni
+            {/* {userInfo.data.displayName} */}
+          </Text>
           <TouchableOpacity
             style={styles.profileImageWrapper}
             onPress={() => navigation.openDrawer()}
