@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
@@ -56,6 +56,18 @@ const AuthProvider = ({ children }) => {
   // useEffect(() => {
   //   isLoggedIn();
   // }, []);
+
+  const fetchApi = async () => {
+    try {
+      const res = await axios.get("http://192.168.1.65:8000/");
+      console.log(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  useEffect(() => {
+    fetchApi();
+  });
   return (
     <AuthContext.Provider
       value={{ login, logout, isLoading, userToken, userInfo }}

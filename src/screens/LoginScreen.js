@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.dark2,
     padding: 10,
+    marginTop: "5%",
   },
   loginSVG: {
     alignItems: "center",
