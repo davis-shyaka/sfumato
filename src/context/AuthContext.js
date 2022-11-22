@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
-  const login = (username, password) => {
+  const login = (email, password) => {
     setIsLoading(true);
     setUserToken("iofgjbyhbgdhg");
     // Axios.post(`$BASE_URL/jwt-auth/v1/token`, { username, password })

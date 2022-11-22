@@ -12,6 +12,7 @@ import { StyleSheet } from "react-native";
 import * as SystemUI from "expo-system-ui";
 import ArtDetailsScreen from "../screens/ArtDetailsScreen";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import ImageUpload from "../components/ImageUpload";
 
 SystemUI.setBackgroundColorAsync(colors.dark2);
 const Tab = createBottomTabNavigator();
@@ -87,6 +88,15 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Community"
         component={CommunityScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="planet-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Upload"
+        component={ImageUpload}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="planet-outline" color={color} size={size} />
