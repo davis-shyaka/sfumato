@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../assets/colors/colors";
@@ -13,101 +14,194 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import LoginSVG from "../assets/images/misc/login.svg";
 import GoogleSVG from "../assets/images/misc/google.svg";
 import { AuthContext } from "../context/AuthContext";
+import * as Yup from "yup";
+import { Formik } from "formik";
+import client from "../api/client";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
   const { login } = useContext(AuthContext);
+
+  const userInfo = {
+    email: "",
+    password: "",
+  };
+
+  const SignInSchema = Yup.object({
+    email: Yup.string().email().required("Email is required"),
+    password: Yup.string()
+      .trim()
+      .min(7, "Password is too short")
+      .required("Password is required!"),
+  });
+
+  const signIn = async (values, formikActions) => {
+    // console.log(values);
+    try {
+      const res = await client.post("/signIn", {
+        ...values,
+      });
+      console.log(res.data);
+      formikActions.resetForm();
+      formikActions.setSubmitting(false);
+    } catch (error) {
+      console.log("Error during sign in: ", error.message);
+    }
+  };
   return (
     <SafeAreaView style={styles.loginWrapper}>
-      {/* SVG */}
-      <View style={styles.loginSVG}>
-        <LoginSVG height={300} width={300} />
-      </View>
-      {/* Login Section */}
-      {/* Title */}
-
-      <Text style={styles.loginTitle}>Login</Text>
-      {/* Login Body */}
-      <View style={styles.loginBody}>
-        <TouchableOpacity style={styles.otherOptionsLogin}>
-          <GoogleSVG height={30} width={30} />
-        </TouchableOpacity>
-
-        {/* Other Login Options */}
-        <Text style={styles.otherOptionsText}>Or log in with...</Text>
-        <View style={styles.userInputWrapper}>
-          <MaterialIcons
-            name="alternate-email"
-            size={20}
-            color={colors.yellow}
-          />
-          <TextInput
-            style={styles.userInput}
-            placeholder="Email"
-            placeholderTextColor={colors.magneta}
-            keyboardType="email-address"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* SVG */}
+        <View style={styles.loginSVG}>
+          <LoginSVG height={300} width={300} />
         </View>
-        <View style={styles.userInputWrapper}>
-          <Ionicons
-            name="ios-lock-closed-outline"
-            size={20}
-            color={colors.yellow}
-          />
-          <TextInput
-            style={styles.userInput}
-            placeholder="Password"
-            placeholderTextColor={colors.magneta}
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={{ color: colors.cyan, fontWeight: "700" }}>
-              Forgot?
+        {/* Login Section */}
+        {/* Title */}
+
+        <Text style={styles.loginTitle}>Login</Text>
+        {/* Login Body */}
+        <View style={styles.loginBody}>
+          <TouchableOpacity style={styles.otherOptionsLogin}>
+            <GoogleSVG height={30} width={30} />
+          </TouchableOpacity>
+
+          {/* Other Login Options */}
+          <Text style={styles.otherOptionsText}>Or log in with...</Text>
+          <Formik
+            initialValues={userInfo}
+            validationSchema={SignInSchema}
+            onSubmit={signIn}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              isSubmitting,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+            }) => {
+              // console.log(values);
+              const { email, password } = values;
+              return (
+                <>
+                  {/* Login Body */}
+                  <View style={styles.userInputWrapper}>
+                    <MaterialIcons
+                      name="alternate-email"
+                      size={20}
+                      color={colors.yellow}
+                    />
+                    <TextInput
+                      value={email}
+                      errors={touched.email && errors.email}
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      style={styles.userInput}
+                      placeholder="Email"
+                      placeholderTextColor={colors.white}
+                      keyboardType="email-address"
+                    />
+                  </View>
+                  {errors.email ? (
+                    <Text
+                      style={{
+                        color: colors.magneta,
+                        alignSelf: "flex-start",
+                        marginLeft: "10%",
+                        marginBottom: "5%",
+                      }}
+                    >
+                      {errors.email}
+                    </Text>
+                  ) : null}
+                  <View style={styles.userInputWrapper}>
+                    <Ionicons
+                      name="ios-lock-closed-outline"
+                      size={20}
+                      color={colors.yellow}
+                    />
+                    <TextInput
+                      value={password}
+                      errors={touched.password && errors.password}
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      style={styles.userInput}
+                      placeholder="Password"
+                      placeholderTextColor={colors.white}
+                      secureTextEntry={true}
+                    />
+                    <TouchableOpacity onPress={() => {}}>
+                      <Text style={{ color: colors.cyan, fontWeight: "700" }}>
+                        Forgot?
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  {errors.password ? (
+                    <Text
+                      style={{
+                        color: colors.magneta,
+                        alignSelf: "flex-start",
+                        marginLeft: "10%",
+                        marginBottom: "5%",
+                      }}
+                    >
+                      {errors.password}
+                    </Text>
+                  ) : null}
+                  <TouchableOpacity
+                    onPress={!isSubmitting ? handleSubmit : null}
+                    disabled={isSubmitting}
+                    style={[
+                      styles.loginButton,
+                      { opacity: isSubmitting ? 0.4 : 1 },
+                    ]}
+                  >
+                    <Text style={styles.loginText}>Login</Text>
+                  </TouchableOpacity>
+                </>
+              );
+            }}
+          </Formik>
+          <TouchableOpacity
+            onPress={() => {
+              login(email, password);
+            }}
+            style={[styles.loginButton, { marginTop: 20 }]}
+          >
+            <Text style={styles.loginText}>Fake Login</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.callToRegister}>
+          <Text
+            style={{
+              color: colors.white,
+              marginRight: 10,
+              fontFamily: "Cera-Regular",
+            }}
+          >
+            New to the Community?
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Register");
+            }}
+          >
+            <Text
+              style={{
+                color: colors.cyan,
+                fontFamily: "Cera-Medium",
+                fontWeight: "700",
+              }}
+            >
+              Register
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            login(email, password);
-          }}
-          style={styles.loginButton}
-        >
-          <Text style={styles.loginText}>Log In</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.callToRegister}>
-        <Text
-          style={{
-            color: colors.white,
-            marginRight: 10,
-            fontFamily: "Cera-Regular",
-          }}
-        >
-          New to the Community?
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Register");
-          }}
-        >
-          <Text
-            style={{
-              color: colors.cyan,
-              fontFamily: "Cera-Medium",
-              fontWeight: "700",
-            }}
-          >
-            Register
-          </Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -118,6 +212,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.dark2,
     padding: 10,
+    marginTop: "5%",
   },
   loginSVG: {
     alignItems: "center",

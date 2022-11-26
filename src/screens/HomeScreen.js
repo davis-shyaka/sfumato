@@ -38,16 +38,16 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView>
         {/* Header */}
         <View style={styles.headerWrapper}>
-          <Text style={styles.headerText}>
-            Welcome back, Beni
-            {/* {userInfo.data.displayName} */}
-          </Text>
           <TouchableOpacity
             style={styles.profileImageWrapper}
             onPress={() => navigation.openDrawer()}
           >
             <Image source={profile} style={styles.profileImage} />
           </TouchableOpacity>
+          <Text style={styles.headerText}>
+            Welcome back, Beni
+            {/* {userInfo.data.displayName} */}
+          </Text>
         </View>
 
         {/* Search Bar */}

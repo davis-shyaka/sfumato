@@ -15,6 +15,7 @@ import RegistrationSVG from "../assets/images/misc/registration.svg";
 import GoogleSVG from "../assets/images/misc/google.svg";
 import { ErrorMessage, Formik } from "formik";
 import * as Yup from "yup";
+import client from "../api/client";
 
 const RegisterScreen = ({ navigation }) => {
   const userInfo = {
@@ -44,6 +45,15 @@ const RegisterScreen = ({ navigation }) => {
       "The passwords do not match"
     ),
   });
+
+  const signUp = async (values, formikActions) => {
+    const res = await client.post("/createUser", {
+      ...values,
+    });
+    console.log(res.data);
+    formikActions.resetForm();
+    formikActions.setSubmitting(false);
+  };
   return (
     <SafeAreaView style={styles.loginWrapper}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -62,13 +72,7 @@ const RegisterScreen = ({ navigation }) => {
         <Formik
           initialValues={userInfo}
           validationSchema={SignupSchema}
-          onSubmit={(values, formikActions) => {
-            setTimeout(() => {
-              console.log(values);
-              formikActions.resetForm();
-              formikActions.setSubmitting(false);
-            }, 1000);
-          }}
+          onSubmit={signUp}
         >
           {({
             values,
@@ -98,25 +102,26 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       value={surname}
-                      // error={touched.surname && errors.surname}
+                      errors={touched.surname && errors.surname}
                       onChangeText={handleChange("surname")}
                       onBlur={handleBlur("surname")}
                       style={styles.userInput}
                       placeholder="Surname"
                       placeholderTextColor={colors.white}
                     />
-                    {errors.surname ? (
-                      <Text
-                        style={{
-                          color: colors.magneta,
-                          alignItems: "center",
-                        }}
-                      >
-                        {errors.surname}
-                      </Text>
-                    ) : null}
                   </View>
-
+                  {errors.surname ? (
+                    <Text
+                      style={{
+                        color: colors.magneta,
+                        alignSelf: "flex-start",
+                        marginLeft: "10%",
+                        marginBottom: "5%",
+                      }}
+                    >
+                      {errors.surname}
+                    </Text>
+                  ) : null}
                   <View style={styles.userInputWrapper}>
                     <MaterialIcons
                       name="person-outline"
@@ -125,22 +130,25 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       value={givenName}
+                      errors={touched.givenName && errors.givenName}
                       onChangeText={handleChange("givenName")}
                       style={styles.userInput}
                       placeholder="Given Name(s)"
                       placeholderTextColor={colors.white}
                     />
-                    {errors.givenName ? (
-                      <Text
-                        style={{
-                          color: colors.magneta,
-                          alignItems: "center",
-                        }}
-                      >
-                        {errors.givenName}
-                      </Text>
-                    ) : null}
                   </View>
+                  {errors.givenName ? (
+                    <Text
+                      style={{
+                        color: colors.magneta,
+                        alignSelf: "flex-start",
+                        marginLeft: "10%",
+                        marginBottom: "5%",
+                      }}
+                    >
+                      {errors.givenName}
+                    </Text>
+                  ) : null}
                   <View style={styles.userInputWrapper}>
                     <MaterialIcons
                       name="alternate-email"
@@ -149,23 +157,26 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       value={email}
+                      errors={touched.email && errors.email}
                       onChangeText={handleChange("email")}
                       style={styles.userInput}
                       placeholder="Email"
                       placeholderTextColor={colors.white}
                       keyboardType="email-address"
                     />
-                    {errors.email ? (
-                      <Text
-                        style={{
-                          color: colors.magneta,
-                          alignItems: "center",
-                        }}
-                      >
-                        {errors.email}
-                      </Text>
-                    ) : null}
                   </View>
+                  {errors.email ? (
+                    <Text
+                      style={{
+                        color: colors.magneta,
+                        alignSelf: "flex-start",
+                        marginLeft: "10%",
+                        marginBottom: "5%",
+                      }}
+                    >
+                      {errors.email}
+                    </Text>
+                  ) : null}
                   <View style={styles.userInputWrapper}>
                     <Ionicons
                       name="ios-lock-closed-outline"
@@ -174,23 +185,26 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       value={password}
+                      errors={touched.password && errors.password}
                       onChangeText={handleChange("password")}
                       style={styles.userInput}
                       placeholder="Password"
                       placeholderTextColor={colors.white}
                       secureTextEntry={true}
                     />
-                    {errors.password ? (
-                      <Text
-                        style={{
-                          color: colors.magneta,
-                          alignItems: "center",
-                        }}
-                      >
-                        {errors.password}
-                      </Text>
-                    ) : null}
                   </View>
+                  {errors.password ? (
+                    <Text
+                      style={{
+                        color: colors.magneta,
+                        alignSelf: "flex-start",
+                        marginLeft: "10%",
+                        marginBottom: "5%",
+                      }}
+                    >
+                      {errors.password}
+                    </Text>
+                  ) : null}
                   <View style={styles.userInputWrapper}>
                     <Ionicons
                       name="ios-lock-closed-outline"
@@ -205,22 +219,26 @@ const RegisterScreen = ({ navigation }) => {
                       placeholderTextColor={colors.white}
                       secureTextEntry={true}
                     />
-                    {errors.confirmPassword ? (
-                      <Text
-                        style={{
-                          color: colors.magneta,
-                          alignItems: "center",
-                        }}
-                      >
-                        {errors.confirmPassword}
-                      </Text>
-                    ) : null}
                   </View>
-
+                  {errors.confirmPassword ? (
+                    <Text
+                      style={{
+                        color: colors.magneta,
+                        alignSelf: "flex-start",
+                        marginLeft: "10%",
+                        marginBottom: "5%",
+                      }}
+                    >
+                      {errors.confirmPassword}
+                    </Text>
+                  ) : null}
                   <TouchableOpacity
                     onPress={!isSubmitting ? handleSubmit : null}
                     disabled={isSubmitting}
-                    style={styles.loginButton}
+                    style={[
+                      styles.loginButton,
+                      { opacity: isSubmitting ? 0.4 : 1 },
+                    ]}
                   >
                     <Text style={styles.loginText}>Register</Text>
                   </TouchableOpacity>
@@ -264,6 +282,7 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   loginWrapper: {
     flex: 1,
+    marginTop: "5%",
     justifyContent: "center",
     backgroundColor: colors.dark2,
     padding: 10,
@@ -292,7 +311,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     padding: 10,
-    marginBottom: 20,
   },
   otherOptionsText: {
     color: colors.white,
