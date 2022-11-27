@@ -1,8 +1,6 @@
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
-  Text,
+  // Text,
   View,
   Button,
   Platform,
@@ -13,252 +11,193 @@ import {
 import colors from "../assets/colors/colors";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+import {
+  Avatar,
+  Title,
+  Caption,
+  Text,
+  TouchableRipple,
+} from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../context/AuthContext";
 
 export default function ProfileScreen() {
-  const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-
-  useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
-
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
-
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
-      });
-
-    return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
+  const { userInfo, userToken } = useContext(AuthContext);
+  // console.log(userInfo);
+  // console.log(userToken);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: colors.dark2,
-        marginTop: "5%",
-      }}
-    >
-      <View style={styles.headingWrapper}>
-        <MaterialCommunityIcons
-          name="account-circle"
-          size={40}
-          color={colors.magneta}
-        />
-        <Text style={styles.headingText}>Profile</Text>
-      </View>
-
-      <View style={styles.staticInfoWrapper}>
-        <View style={styles.staticInfoHeader}>
-          <MaterialCommunityIcons
-            name="account-circle"
-            size={20}
-            color={colors.magneta}
-          />
-          <Text style={styles.staticInfoTextHeader}>KATUREBE Beni Noel</Text>
-        </View>
-        <Text style={styles.staticInfoTextBody}>{expoPushToken}</Text>
-      </View>
-
-      <View style={styles.notificationsBody}>
-        {/* <ScrollView></ScrollView> */}
-        <View style={styles.dynamicInfo}>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.userInfoSection}>
           <View
             style={{
-              alignItems: "flex-start",
-              paddingVertical: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 15,
             }}
           >
-            <View style={styles.notificationMessageItem}>
-              <View style={styles.notificationMessageHeader}>
-                <Ionicons
-                  name="notifications-circle"
-                  size={20}
-                  color={colors.magneta}
-                />
-                <Text numberOfLines={1} style={styles.notificationMessageTitle}>
-                  {notification && notification.request.content.title}{" "}
-                </Text>
-              </View>
-              <View style={styles.notificationMessageBody}>
-                <Text style={styles.notificationMessageBodyText}>
-                  {notification && notification.request.content.body}
-                </Text>
-                <Text>
-                  {notification &&
-                    JSON.stringify(notification.request.content.data.data)}
-                </Text>
-              </View>
+            <Avatar.Image
+              source={{
+                uri: userInfo.avatar,
+              }}
+              size={120}
+            />
+            <View style={{ marginLeft: 15 }}>
+              <Title
+                style={[
+                  styles.title,
+                  {
+                    marginTop: 15,
+                    marginBottom: 5,
+                  },
+                ]}
+              >
+                {userInfo.surname.toUpperCase()}
+              </Title>
+              <Caption style={styles.caption}>{userInfo.givenName}</Caption>
             </View>
-            {/* <Text>
-              Title: {notification && notification.request.content.title}{" "}
-            </Text>
-            <Text>
-              Body: {notification && notification.request.content.body}
-            </Text>
-            <Text>
-              Data:{" "}
-              {notification &&
-                JSON.stringify(notification.request.content.data)}
-            </Text> */}
           </View>
         </View>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={async () => {
-            await schedulePushNotification();
-          }}
-        >
-          <Text style={styles.buttonText}>Tap to receive a mission</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+        <View style={styles.userInfoSection}>
+          <View style={styles.row}>
+            <Icon name="map-marker-radius" color={colors.white} size={20} />
+            {userInfo.location ? (
+              <Text style={{ color: colors.white, marginLeft: 20 }}>
+                {userInfo.location}
+              </Text>
+            ) : (
+              <Text style={{ color: colors.white, marginLeft: 20 }}>
+                No Location Set
+              </Text>
+            )}
+          </View>
+          <View style={styles.row}>
+            <Icon name="phone" color={colors.white} size={20} />
+            {userInfo.phone ? (
+              <Text style={{ color: colors.white, marginLeft: 20 }}>
+                {userInfo.phone}
+              </Text>
+            ) : (
+              <Text style={{ color: colors.white, marginLeft: 20 }}>
+                No Phone Registered
+              </Text>
+            )}
+          </View>
+          <View style={styles.row}>
+            <Icon name="email" color={colors.white} size={20} />
+            <Text style={{ color: colors.white, marginLeft: 20 }}>
+              {userInfo.email}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.infoBoxWrapper}>
+          <View
+            style={[
+              styles.infoBox,
+              {
+                borderRightColor: colors.cyan,
+                borderRightWidth: 1,
+              },
+            ]}
+          >
+            {/* <Title>₹140.50</Title> */}
+            {/* <Caption>Wallet</Caption> */}
+          </View>
+          <View style={styles.infoBox}>
+            {/* <Title>12</Title> */}
+            {/* <Caption>Orders</Caption> */}
+          </View>
+        </View>
+
+        <View style={styles.menuWrapper}>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.menuItem}>
+              <Icon name="heart-outline" color={colors.yellow} size={25} />
+              <Text style={styles.menuItemText}>Your Favorites</Text>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.menuItem}>
+              <Icon name="credit-card" color={colors.green} size={25} />
+              <Text style={styles.menuItemText}>Payment</Text>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.menuItem}>
+              <Icon
+                name="account-check-outline"
+                color={colors.cyan}
+                size={25}
+              />
+              <Text style={styles.menuItemText}>Support</Text>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.menuItem}>
+              <Icon name="delete" color={colors.magneta} size={25} />
+              <Text style={styles.menuItemText}>Delete Account</Text>
+            </View>
+          </TouchableRipple>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Mail📬",
-      body: "There is a Judas among us",
-      data: {
-        data: "The Eternal Wall has been breached. Reported details soon to follow",
-      },
-    },
-    trigger: { seconds: 2 },
-  });
-}
-
-async function registerForPushNotificationsAsync() {
-  let token;
-
-  if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
-
-  if (Device.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert("Must use physical device for Push Notifications");
-  }
-
-  return token;
-}
-
 const styles = StyleSheet.create({
-  headingWrapper: {
-    backgroundColor: colors.yellow,
-    padding: "1%",
-    paddingHorizontal: "10%",
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    marginVertical: "10%",
+  container: {
+    flex: 1,
+    backgroundColor: colors.dark2,
   },
-  headingText: {
+  userInfoSection: {
+    paddingHorizontal: 30,
+    marginBottom: 25,
+  },
+  title: {
+    fontSize: 24,
     fontFamily: "Cera-Bold",
-    color: colors.black,
-    fontSize: 18,
+    color: colors.white,
   },
-  notificationsBody: {
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: 10,
+  caption: {
+    fontSize: 14,
+    lineHeight: 14,
+    color: colors.white,
+    fontFamily: "Cera-Light",
   },
-  staticInfoWrapper: {
-    marginVertical: 20,
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: 20,
-  },
-  staticInfoHeader: {
+  row: {
     flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginBottom: 5,
+    marginBottom: 10,
+  },
+  infoBoxWrapper: {
     borderBottomColor: colors.cyan,
     borderBottomWidth: 1,
-  },
-  staticInfoTextHeader: {
-    fontFamily: "Cera-Bold",
-    fontSize: 18,
-    marginLeft: 5,
-  },
-  staticInfoTextBody: {
-    fontFamily: "Cera-Light",
-    fontSize: 14,
-    marginTop: 10,
-  },
-  notificationMessageItem: {
-    backgroundColor: colors.cyan,
-    borderRadius: 20,
-    padding: 10,
-    // width: 300,
-  },
-  notificationMessageHeader: {
+    borderTopColor: colors.cyan,
+    borderTopWidth: 1,
     flexDirection: "row",
+    height: 100,
   },
-  notificationMessageTitle: {
-    fontFamily: "Cera-Bold",
-    fontSize: 18,
-    marginLeft: 5,
+  infoBox: {
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  notificationMessageBody: {
+  menuWrapper: {
     marginTop: 10,
   },
-  notificationMessageBodyText: {
-    fontFamily: "Cera-Light",
-    fontSize: 16,
+  menuItem: {
+    flexDirection: "row",
+    paddingVertical: 15,
+    paddingHorizontal: 30,
   },
-  button: {
-    backgroundColor: colors.dark,
-    borderRadius: 30,
-    padding: 20,
-    alignItems: "center",
-  },
-  buttonText: {
+  menuItemText: {
     color: colors.white,
-    fontFamily: "Cera-Bold",
-    fontSize: 18,
+    marginLeft: 20,
+    fontWeight: "600",
+    fontSize: 16,
+    lineHeight: 26,
   },
 });

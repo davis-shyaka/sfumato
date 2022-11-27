@@ -22,12 +22,13 @@ const CustomDrawer = (props) => {
         {/* Background Image for the Drawer */}
         <ImageBackground source={background} style={styles.backgroundImage}>
           {/* User Profile Image */}
-          <Image style={styles.profileImage} source={profile} />
+          <Image
+            style={styles.profileImage}
+            source={{ uri: userInfo.avatar }}
+          />
           {/* User Name */}
           <Text style={styles.profileText}>
-            {" "}
-            KATUREBE Beni Noel
-            {/* {userInfo.data.lastName + userInfo.data.firstName} */}
+            {userInfo.surname.toUpperCase() + " " + userInfo.givenName}
           </Text>
         </ImageBackground>
         {/* Screen Names List */}

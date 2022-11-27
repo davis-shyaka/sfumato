@@ -24,144 +24,131 @@ const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const AddItemsScreen = ({ navigation, route }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  let openImagePickerAsync = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    if (pickerResult.cancelled === true) {
-      return;
+  // {profileImage} ? source={uri: profileImage }
+  //                : source={image}}
+
+  const [profileImage, setProfileImage] = useState(null);
+
+  const openImageLibrary = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    console.log(status);
+    if (status !== "granted") {
+      alert("Sorry; we need camera roll permissions for this to work.");
     }
-    setSelectedImage({ localUri: pickerResult.uri });
+
+    if (status === "granted") {
+      const response = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        // aspect: [10, 10],
+        quality: 1,
+      });
+
+      // console.log(response);
+      // console.log(response.uri);
+
+      if (!response.cancelled) {
+        setProfileImage(response.uri);
+      }
+    }
   };
-
-  if (selectedImage !== null) {
-    return (
-      <View style={styles.container}>
-        <View
-          style={{
-            width: 500,
-            marginBottom: 20,
-            flexDirection: "row",
-            justifyContent: "space-around",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Home2");
-            }}
-          >
-            <MaterialIcons name="cancel" size={40} color={colors.magneta} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("AddItems");
-            }}
-          >
-            <MaterialIcons
-              name="check-circle-outline"
-              size={40}
-              color={colors.green}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.thumbnailWrapper}>
-          <Image
-            source={{ uri: selectedImage.localUri }}
-            style={styles.thumbnail}
-          />
-        </View>
-      </View>
-    );
-  }
   return (
-    <View style={styles.appWrapper}>
-      <View style={styles.containerWrapper}>
-        <ImageBackground source={image} style={styles.backgroundImage}>
-          <TouchableOpacity
-            style={styles.backIcon}
-            onPress={() => navigation.goBack()}
+    <ScrollView>
+      <View style={styles.appWrapper}>
+        <View style={styles.containerWrapper}>
+          <ImageBackground
+            source={{
+              uri: profileImage,
+            }}
+            style={styles.backgroundImage}
           >
-            <FontAwesome
-              name="chevron-circle-left"
-              size={32}
-              color={colors.cyan}
-            />
-          </TouchableOpacity>
-        </ImageBackground>
+            <TouchableOpacity
+              style={styles.backIcon}
+              onPress={() => navigation.goBack()}
+            >
+              <FontAwesome
+                name="chevron-circle-left"
+                size={32}
+                color={colors.cyan}
+              />
+            </TouchableOpacity>
+          </ImageBackground>
 
-        <View style={styles.descriptionWrapper}>
-          <View style={styles.descriptionTextWrapper}>
-            <Text style={styles.descriptionTitle}>Description</Text>
-            <ScrollView>
-              <View style={styles.imageButtonWrapper}>
-                <TouchableOpacity
-                  onPress={openImagePickerAsync}
-                  style={styles.imageButton}
-                >
-                  <View style={styles.iconWrapper}>
-                    <Feather name="upload" size={24} color={colors.yellow} />
+          <View style={styles.descriptionWrapper}>
+            <View style={styles.descriptionTextWrapper}>
+              <Text style={styles.descriptionTitle}>Description</Text>
+              <ScrollView>
+                <View style={styles.imageButtonWrapper}>
+                  <TouchableOpacity
+                    onPress={openImageLibrary}
+                    style={styles.imageButton}
+                  >
+                    <View style={styles.iconWrapper}>
+                      <Feather name="upload" size={24} color={colors.yellow} />
+                    </View>
+                    <Text style={styles.imageButtonText}>Pick a photo</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputBar}>
+                    <TextInput
+                      style={styles.inputText}
+                      placeholder="Title..."
+                      placeholderTextColor={colors.green}
+                    />
                   </View>
-                  <Text style={styles.imageButtonText}>Pick a photo</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.inputWrapper}>
-                <View style={styles.inputBar}>
-                  <TextInput
-                    style={styles.inputText}
-                    placeholder="Title..."
-                    placeholderTextColor={colors.green}
-                  />
                 </View>
-              </View>
-              <View style={styles.inputWrapper}>
-                <View style={styles.inputBar}>
-                  <TextInput
-                    style={styles.inputText}
-                    placeholder="Artist..."
-                    placeholderTextColor={colors.green}
-                  />
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputBar}>
+                    <TextInput
+                      style={styles.inputText}
+                      placeholder="Artist..."
+                      placeholderTextColor={colors.green}
+                    />
+                  </View>
                 </View>
-              </View>
-              <View style={styles.inputWrapper}>
-                <View style={styles.inputBar}>
-                  <TextInput
-                    style={styles.inputText}
-                    placeholder="Category..."
-                    placeholderTextColor={colors.green}
-                  />
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputBar}>
+                    <TextInput
+                      style={styles.inputText}
+                      placeholder="Category..."
+                      placeholderTextColor={colors.green}
+                    />
+                  </View>
                 </View>
-              </View>
-              <View style={styles.inputWrapper}>
-                <View style={styles.inputBar}>
-                  <TextInput
-                    style={styles.inputText}
-                    placeholder="Price..."
-                    placeholderTextColor={colors.green}
-                  />
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputBar}>
+                    <TextInput
+                      style={styles.inputText}
+                      placeholder="Price..."
+                      placeholderTextColor={colors.green}
+                    />
+                  </View>
                 </View>
-              </View>
-              <View style={styles.inputWrapper}>
-                <View style={styles.inputBar}>
-                  <TextInput
-                    style={styles.inputText}
-                    placeholder="email..."
-                    placeholderTextColor={colors.green}
-                  />
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputBar}>
+                    <TextInput
+                      style={styles.inputText}
+                      placeholder="email..."
+                      placeholderTextColor={colors.green}
+                    />
+                  </View>
                 </View>
-              </View>
-            </ScrollView>
+              </ScrollView>
+            </View>
           </View>
-        </View>
 
-        <TouchableOpacity
-          style={styles.buttonWrapper}
-          onPress={() =>
-            alert("Tuza mwana.\nThis functionality is not yet prepared")
-          }
-        >
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonWrapper}
+            onPress={() =>
+              alert("Tuza mwana.\nThis functionality is not yet prepared")
+            }
+          >
+            <Text style={styles.buttonText}>Add</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

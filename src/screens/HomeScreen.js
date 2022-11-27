@@ -24,7 +24,9 @@ import { AuthContext } from "../context/AuthContext";
 const HomeScreen = ({ navigation }) => {
   const [artTab, setArtTab] = useState(1);
 
-  // const { userInfo } = useContext(AuthContext);
+  const { userInfo, userToken } = useContext(AuthContext);
+  // console.log(userInfo);
+  // console.log(userToken);
 
   const renderBanner = ({ item, index }) => {
     return <BannerSlider data={item} />;
@@ -42,11 +44,15 @@ const HomeScreen = ({ navigation }) => {
             style={styles.profileImageWrapper}
             onPress={() => navigation.openDrawer()}
           >
-            <Image source={profile} style={styles.profileImage} />
+            {
+              <Image
+                source={{ uri: userInfo.avatar }}
+                style={styles.profileImage}
+              />
+            }
           </TouchableOpacity>
           <Text style={styles.headerText}>
-            Welcome back, Beni
-            {/* {userInfo.data.displayName} */}
+            Welcome back, {userInfo.surname.toUpperCase()}
           </Text>
         </View>
 

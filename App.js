@@ -7,6 +7,11 @@ import * as Application from "expo-application";
 
 import AuthProvider from "./src/context/AuthContext";
 import AppNav from "./src/navigation/AppNav";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginScreen from "./src/screens/LoginScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import ImageUpload from "./src/components/ImageUpload";
+import { NavigationContainer } from "@react-navigation/native";
 
 SystemUI.setBackgroundColorAsync(colors.dark2);
 
@@ -42,10 +47,24 @@ export default class App extends React.Component {
     if (!this.state.fontsLoaded) {
       return null;
     }
+
+    const Stack = createNativeStackNavigator();
+    const StackNavigator = () => {
+      return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen component={LoginScreen} name="Login" />
+          <Stack.Screen component={RegisterScreen} name="Register" />
+          <Stack.Screen component={ImageUpload} name="ImageUpload" />
+        </Stack.Navigator>
+      );
+    };
     return (
       <AuthProvider>
         <AppNav />
       </AuthProvider>
+      // <NavigationContainer>
+      //   <StackNavigator />
+      // </NavigationContainer>
     );
   }
 }

@@ -9,21 +9,15 @@ const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
-  const login = (email, password) => {
+  const login = ({ res }) => {
     setIsLoading(true);
-    setUserToken("iofgjbyhbgdhg");
-    // Axios.post(`$BASE_URL/jwt-auth/v1/token`, { username, password })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     let userInfo = res.data;
-    //     setUserInfo(userInfo);
-    //     setUserToken(userInfo.data.token);
-    //     AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-    //     AsyncStorage.setItem("userToken", userInfo.daya.token);
-    //   })
-    //   .catch((e) => {
-    //     console.log(`Login error ${e}`);
-    //   });
+
+    let userInfo = res.data.user;
+    console.log(userInfo);
+    setUserInfo(userInfo);
+    setUserToken(res.data.token);
+    AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+    AsyncStorage.setItem("userToken", res.data.token);
 
     setIsLoading(false);
   };
@@ -53,10 +47,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   isLoggedIn();
-  // }, []);
-
   const fetchApi = async () => {
     try {
       const res = await axios.get("http://192.168.1.65:8000/");
@@ -65,12 +55,15 @@ const AuthProvider = ({ children }) => {
       console.log(error.message);
     }
   };
+
   useEffect(() => {
     fetchApi();
-  });
+    // isLoggedIn();
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ login, logout, isLoading, userToken, userInfo }}
+      value={{ login, logout, isLoading, setIsLoading, userToken, userInfo }}
     >
       {children}
     </AuthContext.Provider>
