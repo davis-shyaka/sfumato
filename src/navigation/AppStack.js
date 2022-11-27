@@ -9,6 +9,7 @@ import SettingsScreen from "../screens/SettingsScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../assets/colors/colors";
 import TabNavigator from "./TabNavigator";
+import EditProfileScreen from "../screens/EditProfileScreen";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -44,7 +45,7 @@ const AppStack = () => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         component={ProfileScreen}
         name="Profile"
         options={{
@@ -52,7 +53,7 @@ const AppStack = () => {
             <Ionicons name="person-circle-outline" size={24} color={color} />
           ),
         }}
-      />
+      /> */}
       <Drawer.Screen
         component={NotificationsScreen}
         name="Notifications"
@@ -80,6 +81,8 @@ const AppStack = () => {
           ),
         }}
       />
+
+      {/* <Stack.Screen component={EditProfileScreen} name="EditProfile" /> */}
     </Drawer.Navigator>
   );
 };

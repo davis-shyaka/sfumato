@@ -4,19 +4,24 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import AddItemsScreen from "../screens/AddItemsScreen";
 import CommunityScreen from "../screens/CommunityScreen";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import LibraryScreen from "../screens/LibraryScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import colors from "../assets/colors/colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as SystemUI from "expo-system-ui";
 import ArtDetailsScreen from "../screens/ArtDetailsScreen";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import ImageUpload from "../components/ImageUpload";
+import ProfileScreen from "../screens/ProfileScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
+import Icon from "react-native-vector-icons/Ionicons";
 
 SystemUI.setBackgroundColorAsync(colors.dark2);
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 const HomeStack = () => {
   return (
@@ -86,27 +91,85 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Community"
-        component={CommunityScreen}
+        name="Profile"
+        component={ProfileStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="planet-outline" color={color} size={size} />
+            <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
         }}
       />
-      <Tab.Screen
-        name="Upload"
-        component={ImageUpload}
+      {/* <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="planet-outline" color={color} size={size} />
+            <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
 
+export default TabNavigator;
+
+const ProfileStackScreen = ({ navigation }) => {
+  // const {colors} = useTheme();
+
+  return (
+    <ProfileStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.dark,
+          shadowColor: colors.magneta, // iOS
+          elevation: 0, // Android
+        },
+        headerTintColor: colors.white,
+      }}
+    >
+      <ProfileStack.Screen
+        name="Profile2"
+        component={ProfileScreen}
+        options={{
+          title: "",
+          headerStyle: {
+            backgroundColor: colors.dark,
+            // borderRadius: 20,
+            // innerWidth: 10,
+          },
+          headerLeft: () => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon
+                name="ios-menu"
+                size={25}
+                color={colors.cyan}
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{ marginRight: 10 }}>
+              <MaterialCommunityIcons
+                name="account-edit"
+                size={25}
+                color={colors.yellow}
+                onPress={() => navigation.navigate("EditProfile")}
+              />
+            </View>
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="EditProfile"
+        options={{
+          title: "Edit Profile",
+        }}
+        component={EditProfileScreen}
+      />
+    </ProfileStack.Navigator>
+  );
+};
 const styles = StyleSheet.create({
   tabBar: {
     borderTopLeftRadius: 20,
@@ -123,5 +186,3 @@ const getTabBarVisibility = (route) => {
 
   return "flex";
 };
-
-export default TabNavigator;
