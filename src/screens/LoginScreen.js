@@ -41,12 +41,12 @@ const LoginScreen = ({ navigation }) => {
 
   const signIn = async (values, formikActions) => {
     setIsLoading(true);
-    console.log(values);
+    // console.log(values);
     try {
       const res = await client.post("/signIn", {
         ...values,
       });
-      console.log(res.data);
+      console.log("After sign in: ", res.data);
       if (res.data.success === false) {
         alert(res.data.message);
       }

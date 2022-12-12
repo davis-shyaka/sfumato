@@ -21,11 +21,29 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../context/AuthContext";
+import client from "../api/client";
 
 export default function ProfileScreen() {
   const { userInfo, userToken } = useContext(AuthContext);
   // console.log(userInfo);
   // console.log(userToken);
+  const [refreshing, setRefreshing] = useState(true);
+  const [currentData, setCurrentData] = useState(userInfo);
+
+  useEffect(() => {
+    fetchData();
+  }, [currentData]);
+
+  const fetchData = async () => {
+    try {
+      const res = await client.get(`/users/${userInfo.id}`);
+      let data = res.data;
+      setCurrentData(data);
+      setRefreshing(false);
+    } catch (error) {
+      console.log("Error fetching api: ", error.message);
+    }
+  };
 
   return (
     <ScrollView>
@@ -54,9 +72,9 @@ export default function ProfileScreen() {
                   },
                 ]}
               >
-                {userInfo.surname.toUpperCase()}
+                {currentData.surname.toUpperCase()}
               </Title>
-              <Caption style={styles.caption}>{userInfo.givenName}</Caption>
+              <Caption style={styles.caption}>{currentData.givenName}</Caption>
             </View>
           </View>
         </View>

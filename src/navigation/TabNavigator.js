@@ -15,6 +15,8 @@ import ArtDetailsScreen from "../screens/ArtDetailsScreen";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import ImageUpload from "../components/ImageUpload";
 import ProfileScreen from "../screens/ProfileScreen";
+import FeaturedScreen from "../screens/FeaturedScreen";
+import UpdateItemsScreen from "../screens/UpdateItemsScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -34,6 +36,33 @@ const HomeStack = () => {
       <Stack.Screen
         component={ArtDetailsScreen}
         name="ArtDetails"
+        options={({ route }) => ({
+          title: route.params?.title,
+          headerShown: false,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+const FeaturedStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: true }}>
+      <Stack.Screen
+        component={FeaturedScreen}
+        name="Featured"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={ArtDetailsScreen}
+        name="ArtDetails"
+        options={({ route }) => ({
+          title: route.params?.title,
+          headerShown: false,
+        })}
+      />
+      <Stack.Screen
+        component={UpdateItemsScreen}
+        name="UpdateItems"
         options={({ route }) => ({
           title: route.params?.title,
           headerShown: false,
@@ -71,6 +100,19 @@ const TabNavigator = () => {
             <Ionicons name="home-outline" color={color} size={size} />
           ),
         })}
+      />
+      <Tab.Screen
+        name="Featured2"
+        component={FeaturedStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="feature-search"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="AddItems"

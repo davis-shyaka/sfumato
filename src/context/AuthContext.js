@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
     setIsLoading(true);
 
     let userInfo = res.data.user;
-    console.log(userInfo);
+    // console.log(userInfo);
     setUserInfo(userInfo);
     setUserToken(res.data.token);
     AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
@@ -35,8 +35,9 @@ const AuthProvider = ({ children }) => {
       setIsLoading(true);
       let userInfo = await AsyncStorage.getItem("userInfo");
       let userToken = await AsyncStorage.getItem("userToken");
-      userInfo = JSON.parse(userInfo);
-
+      console.log(userInfo);
+      // userInfo = JSON.parse(userInfo);
+      console.log(userInfo);
       if (userInfo) {
         setUserToken(userToken);
         setUserInfo(userInfo);
@@ -49,10 +50,10 @@ const AuthProvider = ({ children }) => {
 
   const fetchApi = async () => {
     try {
-      const res = await axios.get("http://192.168.1.65:8000/");
+      const res = await axios.get("http://192.168.1.64:8000/");
       console.log(res.data);
     } catch (error) {
-      console.log(error.message);
+      console.log("Error fetching api: ", error.message);
     }
   };
 

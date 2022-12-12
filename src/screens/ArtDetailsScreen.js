@@ -11,103 +11,152 @@ import {
 import colors from "../assets/colors/colors";
 import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import client from "../api/client";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import AppLoader from "../components/AppLoader";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const ArtDetailsScreen = ({ navigation, route }) => {
-  const { item } = route.params;
+  const { title } = route.params;
+  console.log("Items params:", route.params);
+  const { login, isLoading, setIsLoading } = useContext(AuthContext);
+
+  const handleDelete = async (id) => {
+    try {
+      setIsLoading(true);
+      const response = await client.delete(`/item/delete/${id}`);
+      if (response.data.success === false) {
+        alert(response.data.message);
+      }
+      if (response.data.success) {
+        navigation.goBack();
+      }
+      setIsLoading(false);
+    } catch (error) {
+      alert(`Failed to delete item: ${error.message}`);
+    }
+  };
   return (
-    // <ScrollView>
-    <View style={styles.container}>
-      <ImageBackground
-        source={route.params?.photo}
-        style={styles.backgroundImage}
-      >
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.goBack()}
-        >
-          <FontAwesome
-            name="chevron-circle-left"
-            size={32}
-            color={colors.cyan}
-          />
-        </TouchableOpacity>
-        <View style={styles.titlesWrapper}>
-          <Text style={styles.itemTitle}>{route.params?.title}</Text>
-          <View style={styles.artistWrapper}>
-            <FontAwesome name="paint-brush" size={24} color={colors.yellow} />
-            <Text style={styles.artistText}>{route.params?.artist}</Text>
-          </View>
-        </View>
-      </ImageBackground>
-
-      <View style={styles.descriptionWrapper}>
-        <TouchableOpacity>
-          <View style={styles.heartWrapper}>
-            <Entypo name="heart" size={32} color={colors.magneta} />
-          </View>
-        </TouchableOpacity>
-
-        <View style={styles.descriptionTextWrapper}>
-          <Text style={styles.descriptionTitle}>Description</Text>
-          <ScrollView>
-            <View style={styles.descriptionSection}>
-              <Text style={styles.descriptionText}>
-                Title: {route.params?.title}
-              </Text>
-              <Text style={styles.descriptionText}>
-                Artist: {route.params?.artist}
-              </Text>
-              <Text style={styles.descriptionText}>
-                Category: {route.params?.subTitle}
-              </Text>
-              <Text style={styles.descriptionText}>Size:</Text>
-              <Text style={styles.descriptionText}>
-                Price: {route.params?.price}
-              </Text>
-              <Text style={styles.descriptionText}>Email:</Text>
+    <>
+      <ScrollView>
+        <View style={styles.container}>
+          <ImageBackground
+            source={route.params?.photo}
+            style={styles.backgroundImage}
+          >
+            <TouchableOpacity
+              style={styles.backIcon}
+              onPress={() => navigation.goBack()}
+            >
+              <FontAwesome
+                name="chevron-circle-left"
+                size={32}
+                color={colors.cyan}
+              />
+            </TouchableOpacity>
+            <View style={styles.titlesWrapper}>
+              <Text style={styles.itemTitle}>{route.params?.title}</Text>
+              <View style={styles.artistWrapper}>
+                <FontAwesome
+                  name="paint-brush"
+                  size={20}
+                  color={colors.yellow}
+                />
+                <Text style={[styles.artistText, { marginLeft: 10 }]}>
+                  {route.params?.artist}
+                </Text>
+              </View>
             </View>
-          </ScrollView>
-        </View>
-      </View>
+          </ImageBackground>
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          paddingHorizontal: "5%",
-        }}
-      >
-        <TouchableOpacity
-          style={styles.buttonWrapper}
-          onPress={() =>
-            alert("Tuza mwana.\nThis functionality is not yet prepared")
-          }
-        >
-          <Text style={styles.buttonText}>Purchase</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonWrapper, { backgroundColor: colors.cyan }]}
-          onPress={() =>
-            alert("Tuza mwana.\nThis functionality is not yet prepared")
-          }
-        >
-          <Text style={styles.buttonText}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonWrapper, { backgroundColor: colors.magneta }]}
-          onPress={() =>
-            alert("Tuza mwana.\nThis functionality is not yet prepared")
-          }
-        >
-          <Text style={styles.buttonText}>Delete</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-    // </ScrollView>
+          <View style={styles.descriptionWrapper}>
+            <TouchableOpacity>
+              <View style={styles.heartWrapper}>
+                <Entypo name="heart" size={32} color={colors.magneta} />
+              </View>
+            </TouchableOpacity>
+
+            <View style={styles.descriptionTextWrapper}>
+              <Text style={styles.descriptionTitle}>Description</Text>
+              <ScrollView>
+                <View style={styles.descriptionSection}>
+                  <Text style={styles.descriptionText}>
+                    ID: {route.params?.id}
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    Title: {route.params?.title}
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    Artist: {route.params?.artist}
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    Category: {route.params?.subTitle}
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    Size: {route.params?.size}
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    Price: {route.params?.price}
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    Email: {route.params?.email}
+                  </Text>
+                </View>
+              </ScrollView>
+            </View>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              paddingHorizontal: "5%",
+            }}
+          >
+            <TouchableOpacity
+              style={styles.buttonWrapper}
+              onPress={() =>
+                alert("Tuza mwana.\nThis functionality is not yet prepared")
+              }
+            >
+              <Text style={styles.buttonText}>Purchase</Text>
+            </TouchableOpacity>
+            {/* Editing an item */}
+            <TouchableOpacity
+              style={[styles.buttonWrapper, { backgroundColor: colors.cyan }]}
+              onPress={() =>
+                navigation.navigate("UpdateItems", {
+                  id: route.params.id,
+                  title: route.params.title,
+                  artist: route.params.artist,
+                  email: route.params.email,
+                  photo: route.params.poster,
+                  subTitle: route.params.category,
+                  price: route.params.price,
+                  size: route.params.size,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.buttonWrapper,
+                { backgroundColor: colors.magneta },
+              ]}
+              onPress={() => handleDelete(route.params?.id)}
+            >
+              <Text style={styles.buttonText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+      {isLoading ? <AppLoader /> : null}
+    </>
   );
 };
 
@@ -115,7 +164,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.dark2,
-    marginTop: 20,
+    marginTop: "5%",
   },
   backgroundImage: {
     height: height * 0.55,
@@ -184,7 +233,7 @@ const styles = StyleSheet.create({
   descriptionSection: {},
   descriptionText: {
     marginTop: 20,
-    fontFamily: "Cera-Regular",
+    // fontFamily: "Cera-Regular",
     fontSize: 16,
     color: colors.white,
   },

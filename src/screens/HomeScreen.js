@@ -20,6 +20,9 @@ import CustomSwitch from "../components/CustomSwitch";
 import { useState } from "react";
 import ListItem from "../components/ListItem";
 import { AuthContext } from "../context/AuthContext";
+import { useEffect } from "react";
+import axios from "axios";
+import client from "../api/client";
 
 const HomeScreen = ({ navigation }) => {
   const [artTab, setArtTab] = useState(1);
@@ -27,6 +30,23 @@ const HomeScreen = ({ navigation }) => {
   const { userInfo, userToken } = useContext(AuthContext);
   // console.log(userInfo);
   // console.log(userToken);
+  const [refreshing, setRefreshing] = useState(true);
+  const [currentData, setCurrentData] = useState(userInfo);
+
+  useEffect(() => {
+    fetchData();
+  }, [currentData]);
+
+  const fetchData = async () => {
+    try {
+      const res = await client.get(`/users/${userInfo.id}`);
+      let data = res.data;
+      setCurrentData(data);
+      setRefreshing(false);
+    } catch (error) {
+      console.log("Error fetching api: ", error.message);
+    }
+  };
 
   const renderBanner = ({ item, index }) => {
     return <BannerSlider data={item} />;
@@ -46,13 +66,13 @@ const HomeScreen = ({ navigation }) => {
           >
             {
               <Image
-                source={{ uri: userInfo.avatar }}
+                source={{ uri: currentData.avatar }}
                 style={styles.profileImage}
               />
             }
           </TouchableOpacity>
           <Text style={styles.headerText}>
-            Welcome back, {userInfo.surname.toUpperCase()}
+            Welcome back, {currentData.surname.toUpperCase()}
           </Text>
         </View>
 

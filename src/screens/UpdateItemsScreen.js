@@ -29,7 +29,7 @@ import AppLoader from "../components/AppLoader";
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
-const AddItemsScreen = ({ navigation, route }) => {
+const UpdateItemsScreen = ({ navigation, route }) => {
   // {profileImage} ? source={uri: profileImage }
   //                : source={image}}
   console.log("From the art details - params: ", route.params);
@@ -64,9 +64,9 @@ const AddItemsScreen = ({ navigation, route }) => {
     // avatar: Yup.string().trim().required("Image is required"),
   });
 
-  const createItem = async (values, formikActions) => {
+  const UpdateItem = async (values, formikActions) => {
     setIsLoading(true);
-    const res = await client.post("/item/create", {
+    const res = await client.patch(`/items/update/${route.params.id}`, {
       ...values,
     });
 
@@ -121,7 +121,7 @@ const AddItemsScreen = ({ navigation, route }) => {
         <Formik
           initialValues={itemInfo}
           validationSchema={CreateItemSchema}
-          onSubmit={createItem}
+          onSubmit={UpdateItem}
           // validateOnChange={false} // disable on every keystroke
         >
           {({
@@ -207,7 +207,7 @@ const AddItemsScreen = ({ navigation, route }) => {
                             <View style={styles.inputBar}>
                               <TextInput
                                 style={styles.inputText}
-                                placeholder="Title..."
+                                placeholder={route.params.title}
                                 placeholderTextColor={colors.green}
                                 value={title}
                                 errors={touched.title && errors.title}
@@ -232,7 +232,7 @@ const AddItemsScreen = ({ navigation, route }) => {
                             <View style={styles.inputBar}>
                               <TextInput
                                 style={styles.inputText}
-                                placeholder="Artist..."
+                                placeholder={route.params.artist}
                                 placeholderTextColor={colors.green}
                                 value={artist}
                                 errors={touched.artist && errors.artist}
@@ -257,7 +257,7 @@ const AddItemsScreen = ({ navigation, route }) => {
                             <View style={styles.inputBar}>
                               <TextInput
                                 style={styles.inputText}
-                                placeholder="Category..."
+                                placeholder={route.params.category}
                                 placeholderTextColor={colors.green}
                                 value={category}
                                 errors={touched.category && errors.category}
@@ -282,7 +282,7 @@ const AddItemsScreen = ({ navigation, route }) => {
                             <View style={styles.inputBar}>
                               <TextInput
                                 style={styles.inputText}
-                                placeholder="Price..."
+                                placeholder={route.params.price}
                                 placeholderTextColor={colors.green}
                                 value={price}
                                 errors={touched.price && errors.price}
@@ -308,7 +308,7 @@ const AddItemsScreen = ({ navigation, route }) => {
                             <View style={styles.inputBar}>
                               <TextInput
                                 style={styles.inputText}
-                                placeholder="Size..."
+                                placeholder={route.params.size}
                                 placeholderTextColor={colors.green}
                                 value={size}
                                 errors={touched.size && errors.size}
@@ -333,7 +333,7 @@ const AddItemsScreen = ({ navigation, route }) => {
                             <View style={styles.inputBar}>
                               <TextInput
                                 style={styles.inputText}
-                                placeholder="Email..."
+                                placeholder={route.params.email}
                                 placeholderTextColor={colors.green}
                                 value={email}
                                 errors={touched.email && errors.email}
@@ -356,7 +356,7 @@ const AddItemsScreen = ({ navigation, route }) => {
                         { opacity: isSubmitting ? 0.4 : 1 },
                       ]}
                     >
-                      <Text style={styles.buttonText}>Add</Text>
+                      <Text style={styles.buttonText}>Update</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -486,4 +486,4 @@ const styles = StyleSheet.create({
     color: colors.yellow,
   },
 });
-export default AddItemsScreen;
+export default UpdateItemsScreen;

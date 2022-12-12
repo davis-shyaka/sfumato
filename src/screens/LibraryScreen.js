@@ -11,6 +11,7 @@ import {
 import Constants from "expo-constants";
 import * as SQLite from "expo-sqlite";
 import colors from "../assets/colors/colors";
+import EvilIcons from "react-native-vector-icons/EvilIcons";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -52,18 +53,52 @@ function Items({ done: doneHeading, onPressItem }) {
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeading}>{heading}</Text>
       {items.map(({ id, done, value }) => (
-        <TouchableOpacity
-          key={id}
-          onPress={() => onPressItem && onPressItem(id)}
+        <View
           style={{
-            backgroundColor: done ? "#1c9963" : "#fff",
-            borderColor: "#000",
-            borderWidth: 1,
-            padding: 8,
+            backgroundColor: done ? colors.green : colors.yellow,
+            padding: 10,
+            marginVertical: 10,
+            marginHorizontal: 10,
+            borderRadius: 10,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Text style={{ color: done ? "#fff" : "#000" }}>{value}</Text>
-        </TouchableOpacity>
+          <Text style={{ color: done ? colors.dark : "#000" }}>{value}</Text>
+
+          {!done ? (
+            <TouchableOpacity
+              key={id}
+              onPress={() => onPressItem && onPressItem(id)}
+              style={{
+                borderColor: "#000",
+                borderWidth: 1,
+                padding: 10,
+                borderRadius: 15,
+              }}
+            >
+              <View>
+                <EvilIcons name="check" size={30} color={colors.green} />
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              key={id}
+              onPress={() => onPressItem && onPressItem(id)}
+              style={{
+                borderColor: "#fff",
+                borderWidth: 1,
+                padding: 10,
+                borderRadius: 15,
+              }}
+            >
+              <View>
+                <EvilIcons name="trash" size={30} color={colors.magneta} />
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
       ))}
     </View>
   );
@@ -199,7 +234,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   sectionHeading: {
-    fontSize: 18,
+    fontSize: 24,
     marginBottom: 8,
+    color: colors.white,
+    alignSelf: "center",
+    fontFamily: "Cera-Bold",
   },
 });

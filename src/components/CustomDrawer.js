@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -10,9 +10,28 @@ import profile from "../assets/images/gallery/friday.jpg";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AuthContext } from "../context/AuthContext";
+import client from "../api/client";
 
 const CustomDrawer = (props) => {
   const { logout, userInfo } = useContext(AuthContext);
+  const [refreshing, setRefreshing] = useState(true);
+  const [currentData, setCurrentData] = useState(userInfo);
+
+  useEffect(() => {
+    fetchData();
+  }, [currentData]);
+
+  const fetchData = async () => {
+    try {
+      const res = await client.get(`/users/${userInfo.id}`);
+      let data = res.data;
+      setCurrentData(data);
+      setRefreshing(false);
+    } catch (error) {
+      console.log("Error fetching api: ", error.message);
+    }
+  };
+
   return (
     <View style={styles.drawerWrapper}>
       <DrawerContentScrollView
@@ -24,11 +43,11 @@ const CustomDrawer = (props) => {
           {/* User Profile Image */}
           <Image
             style={styles.profileImage}
-            source={{ uri: userInfo.avatar }}
+            source={{ uri: currentData.avatar }}
           />
           {/* User Name */}
           <Text style={styles.profileText}>
-            {userInfo.surname.toUpperCase() + " " + userInfo.givenName}
+            {currentData.surname.toUpperCase() + " " + currentData.givenName}
           </Text>
         </ImageBackground>
         {/* Screen Names List */}
